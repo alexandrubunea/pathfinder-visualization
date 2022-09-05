@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "outDir": "./compiled/",
+        "target": "ESNext",
+        "module": "ESNext",
+        "watch": true,
+        "strict": true
+    }
+}
