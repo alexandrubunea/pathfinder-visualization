@@ -1,3 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap');
 body {
-    background-color: #0f0f0f;
+    background-color: #242426;
+    color: #EDEDFC;
+    font-family: 'Poppins', sans-serif;
+}
+.pathfinder_menu {
+    border-bottom: 2px solid #EDEDFC;
+}
+select, input {
+    color: #EDEDFC !important;
+    background-color: #303033 !important;
+}
+select:focus, input:focus, button:focus {
+    box-shadow: none !important;
+    border: 1px solid #583BE0 !important;
+}
+.btn-dark-mode {
+    background-color:#583BE0;
+    color: #EDEDFC;
+}
+.btn-dark-mode:hover {
+    background-color: #383759;
+    color: #EDEDFC;
+}
+.logo {
+    color: #583BE0;
+}
+.node-tool {
+    display: inline-block;
+    font-size:2em;
+}
+.legend {
+    font-size: .7em;
+}
+nav a, nav a:hover {
+    color: #EDEDFC;
+    text-decoration: none;
+}
+.playground {
+    margin-top: .5em;
+    width: 100%;
+    max-width: 100%;
+}
+.square {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+}
+.outline-first-square {
+    border: 1px solid #EDEDFC;
+}
+.outline-square {
+    border: 1px solid #EDEDFC;
+    border-left: none;
 }
