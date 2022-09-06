@@ -1,6 +1,7 @@
 // Libraries
 import { Board } from './Components/Board.js';
 import { ToolsDefinition } from './Definitions/ToolsDefinition.js';
+import { NodeDefinition } from './Definitions/NodeDefinition.js';
 // DOM Elements
 let dom_board = document.getElementById("board");
 let btn_apply_board_size = document.getElementById("btn_apply_board_size");
@@ -26,6 +27,7 @@ let tool_erase_node = document.getElementById("tool_erase_node");
 let board = new Board(dom_board, window.innerHeight - parseInt(String(document.getElementById("navi").offsetHeight), 10) - 10, dom_board.offsetWidth, 30);
 // Definitions
 let tool_definition = new ToolsDefinition();
+let node_definition = new NodeDefinition();
 // App
 let tool_selected = tool_definition.NO_TOOL;
 // Event Listeners
@@ -41,6 +43,7 @@ btn_apply_board_size.addEventListener("click", () => {
     if (height <= 0 || width <= 0 || cell_size <= 0)
         return alert("You board height/width/cell size must be greater than 0!");
     board.resize(height, width, cell_size);
+    add_nodes_event_listener();
 });
 btn_reset_board_size.addEventListener("click", () => {
     dom_board.style.width = '100%';
@@ -114,6 +117,33 @@ function turn_off_last_used_tool() {
     }
     tool_selected = tool_definition.NO_TOOL;
 }
+function does_start_node_exist() {
+    for (let i = 0; i < board.get_rows(); ++i) {
+        for (let j = 0; j < board.get_cols(); ++j) {
+            if (board.get_nodes_array()[i][j].get_type() == node_definition.START)
+                return true;
+        }
+    }
+    return false;
+}
+function does_stop_node_exist() {
+    for (let i = 0; i < board.get_rows(); ++i) {
+        for (let j = 0; j < board.get_cols(); ++j) {
+            if (board.get_nodes_array()[i][j].get_type() == node_definition.STOP)
+                return true;
+        }
+    }
+    return false;
+}
+function does_checkpoint_node_exist() {
+    for (let i = 0; i < board.get_rows(); ++i) {
+        for (let j = 0; j < board.get_cols(); ++j) {
+            if (board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT)
+                return true;
+        }
+    }
+    return false;
+}
 // Select Tool
 tool_start_node.addEventListener("click", () => {
     turn_off_last_used_tool();
@@ -185,3 +215,14 @@ tool_erase_node.addEventListener("click", () => {
     tool_selected = tool_definition.ERASE_TOOL;
     tool_erase_node.classList.add("selected");
 });
+function add_nodes_event_listener() {
+    for (let i = 0; i < board.get_rows(); ++i) {
+        for (let j = 0; j < board.get_cols(); ++j) {
+            let node = board.get_nodes_array()[i][j];
+            node.get_html_element().addEventListener("click", () => {
+                node.update_type(tool_selected, does_start_node_exist(), does_stop_node_exist(), does_checkpoint_node_exist());
+            });
+        }
+    }
+}
+add_nodes_event_listener();

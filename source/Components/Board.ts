@@ -36,6 +36,7 @@ export class Board {
     
             for(let j = 0; j < this.cols; ++j) {
                 let new_cell = document.createElement("td");
+                new_cell.style.height = this.cell_size + "px";
                 this.board[i][j] = new Node(new_cell, i, j);
     
                 new_row.appendChild(this.board[i][j].get_html_element());
@@ -45,7 +46,7 @@ export class Board {
         }
     }
 
-    public resize(height:number, width:number, cell_size:number) {
+    public resize(height: number, width: number, cell_size: number) {
         this.height = height;
         this.width = width;
         this.cell_size = cell_size;
@@ -62,6 +63,16 @@ export class Board {
         }
 
         this.draw();
+    }
+
+    public get_nodes_array() {
+        return this.board;
+    }
+    public get_rows() {
+        return this.rows;
+    }
+    public get_cols() {
+        return this.cols;
     }
 
 };
