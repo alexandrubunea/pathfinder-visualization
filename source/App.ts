@@ -2,6 +2,7 @@
 import { Board } from './Components/Board.js'
 import { ToolsDefinition } from './Definitions/ToolsDefinition.js'
 import { NodeDefinition } from './Definitions/NodeDefinition.js'
+import { AglorithmDefinition } from './Definitions/AlgorithmDefinition.js'
 
 // DOM Elements
 let dom_board :HTMLElement = document.getElementById("board")!;
@@ -26,6 +27,13 @@ let tool_w9_node: HTMLButtonElement = document.getElementById("tool_w9_node") as
 let tool_blocked_node: HTMLButtonElement = document.getElementById("tool_blocked_node") as HTMLButtonElement;
 let tool_checkpoint_node: HTMLButtonElement = document.getElementById("tool_checkpoint_node") as HTMLButtonElement;
 let tool_erase_node: HTMLButtonElement = document.getElementById("tool_erase_node") as HTMLButtonElement;
+
+let select_algorithm: HTMLSelectElement = document.getElementById("select_algorithm") as HTMLSelectElement;
+let select_speed: HTMLSelectElement = document.getElementById("select_speed") as HTMLSelectElement;
+let btn_algorithm_start: HTMLButtonElement = document.getElementById("btn_algorithm_start") as HTMLButtonElement;
+let btn_algorithm_reset: HTMLButtonElement = document.getElementById("btn_algorithm_reset") as HTMLButtonElement;
+
+
 // Board
 let board: Board = new Board(dom_board, window.innerHeight - parseInt(String(document.getElementById("navi")!.offsetHeight), 10) - 10,
             dom_board.offsetWidth, 30);
@@ -33,9 +41,14 @@ let board: Board = new Board(dom_board, window.innerHeight - parseInt(String(doc
 // Definitions
 let tool_definition: ToolsDefinition = new ToolsDefinition();
 let node_definition: NodeDefinition = new NodeDefinition();
+let algorithm_definition: AglorithmDefinition = new AglorithmDefinition();
 
 // App
 let tool_selected: number = tool_definition.NO_TOOL;
+let algorithm_selected: number = algorithm_definition.NONE;
+let algorithm_speed: number = 1;
+let is_disabled_weight:boolean = true;
+let algorithm_is_running:boolean = false;
 
 // Event Listeners
 
@@ -63,7 +76,157 @@ btn_reset_board_size.addEventListener("click", () => {
     board.resize(window.innerHeight - parseInt(String(document.getElementById("navi")!.offsetHeight), 10) - 10, dom_board.offsetWidth, 30);
 });
 
+// Algorithm Settings
+select_algorithm.addEventListener("change", () => {
+    if(algorithm_is_running) return;
+    board.reset();
+    algorithm_selected = Number(select_algorithm.value);
+
+    let weighted_nodes_config = document.getElementById("weighted-nodes")!;
+
+    if(algorithm_selected == algorithm_definition.DIJKSTRSA || algorithm_selected == algorithm_definition.ASTAR) {
+        weighted_nodes_config.classList.remove("disabled-tool");
+        is_disabled_weight = false;
+    } else {
+        if(!is_disabled_weight) {
+            weighted_nodes_config.classList.add("disabled-tool");
+            tool_w1_node.classList.remove("selected");
+            tool_w2_node.classList.remove("selected");
+            tool_w3_node.classList.remove("selected");
+            tool_w4_node.classList.remove("selected");
+            tool_w5_node.classList.remove("selected");
+            tool_w6_node.classList.remove("selected");
+            tool_w7_node.classList.remove("selected");
+            tool_w8_node.classList.remove("selected");
+            tool_w9_node.classList.remove("selected");
+            is_disabled_weight = true;
+        }
+    }
+});
+select_speed.addEventListener("change", () => {
+    if(algorithm_is_running) return;
+    algorithm_speed = Number(select_speed.value);
+});
+btn_algorithm_reset.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    board.reset();
+});
+btn_algorithm_start.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    algorithm_is_running = true;
+});
+
+// Select Tool
+tool_start_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.START_TOOL;
+    tool_start_node.classList.add("selected");
+});
+tool_stop_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.STOP_TOOL;
+    tool_stop_node.classList.add("selected");
+});
+tool_w1_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    if(is_disabled_weight) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.WEIGHT_TOOL;
+    tool_w1_node.classList.add("selected");
+});
+tool_w2_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    if(is_disabled_weight) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.WEIGHT_TOOL + 1;
+    tool_w2_node.classList.add("selected");
+});
+tool_w3_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    if(is_disabled_weight) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.WEIGHT_TOOL + 2;
+    tool_w3_node.classList.add("selected");
+});
+tool_w4_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    if(is_disabled_weight) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.WEIGHT_TOOL + 3;
+    tool_w4_node.classList.add("selected");
+});
+tool_w5_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    if(is_disabled_weight) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.WEIGHT_TOOL + 4;
+    tool_w5_node.classList.add("selected");
+});
+tool_w6_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    if(is_disabled_weight) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.WEIGHT_TOOL + 5;
+    tool_w6_node.classList.add("selected");
+});
+tool_w7_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    if(is_disabled_weight) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.WEIGHT_TOOL + 6;
+    tool_w7_node.classList.add("selected");
+});
+tool_w8_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    if(is_disabled_weight) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.WEIGHT_TOOL + 7;
+    tool_w8_node.classList.add("selected");
+});
+tool_w9_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    if(is_disabled_weight) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.WEIGHT_TOOL + 8;
+    tool_w9_node.classList.add("selected");
+});
+tool_blocked_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.BLOCK_TOOL;
+    tool_blocked_node.classList.add("selected");
+});
+tool_checkpoint_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.CHECKPOINT_TOOL;
+    tool_checkpoint_node.classList.add("selected");
+
+});
+tool_erase_node.addEventListener("click", () => {
+    if(algorithm_is_running) return;
+    turn_off_last_used_tool();
+    tool_selected = tool_definition.ERASE_TOOL;
+    tool_erase_node.classList.add("selected");
+});
+
+// Board
+add_nodes_event_listener();
+
 // Scripts
+function add_nodes_event_listener() {
+    for(let i = 0; i < board.get_rows(); ++i) {
+        for(let j = 0; j < board.get_cols(); ++j) {
+            let node = board.get_nodes_array()[i][j];
+            node.get_html_element().addEventListener("click", () => {
+                node.update_type(tool_selected, does_start_node_exist(), does_stop_node_exist(), does_checkpoint_node_exist());
+            })
+        }
+    }
+}
+
 function turn_off_last_used_tool() {
     switch(tool_selected) {
         case tool_definition.NO_TOOL: {
@@ -153,88 +316,3 @@ function does_checkpoint_node_exist() {
     }
     return false;
 }
-
-// Select Tool
-tool_start_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.START_TOOL;
-    tool_start_node.classList.add("selected");
-});
-tool_stop_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.STOP_TOOL;
-    tool_stop_node.classList.add("selected");
-});
-tool_w1_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.WEIGHT_TOOL;
-    tool_w1_node.classList.add("selected");
-});
-tool_w2_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.WEIGHT_TOOL + 1;
-    tool_w2_node.classList.add("selected");
-});
-tool_w3_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.WEIGHT_TOOL + 2;
-    tool_w3_node.classList.add("selected");
-});
-tool_w4_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.WEIGHT_TOOL + 3;
-    tool_w4_node.classList.add("selected");
-});
-tool_w5_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.WEIGHT_TOOL + 4;
-    tool_w5_node.classList.add("selected");
-});
-tool_w6_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.WEIGHT_TOOL + 5;
-    tool_w6_node.classList.add("selected");
-});
-tool_w7_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.WEIGHT_TOOL + 6;
-    tool_w7_node.classList.add("selected");
-});
-tool_w8_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.WEIGHT_TOOL + 7;
-    tool_w8_node.classList.add("selected");
-});
-tool_w9_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.WEIGHT_TOOL + 8;
-    tool_w9_node.classList.add("selected");
-});
-tool_blocked_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.BLOCK_TOOL;
-    tool_blocked_node.classList.add("selected");
-});
-tool_checkpoint_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.CHECKPOINT_TOOL;
-    tool_checkpoint_node.classList.add("selected");
-
-});
-tool_erase_node.addEventListener("click", () => {
-    turn_off_last_used_tool();
-    tool_selected = tool_definition.ERASE_TOOL;
-    tool_erase_node.classList.add("selected");
-});
-
-function add_nodes_event_listener() {
-    for(let i = 0; i < board.get_rows(); ++i) {
-        for(let j = 0; j < board.get_cols(); ++j) {
-            let node = board.get_nodes_array()[i][j];
-            node.get_html_element().addEventListener("click", () => {
-                node.update_type(tool_selected, does_start_node_exist(), does_stop_node_exist(), does_checkpoint_node_exist());
-            })
-        }
-    }
-}
-add_nodes_event_listener();

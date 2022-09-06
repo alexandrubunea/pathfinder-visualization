@@ -46,6 +46,14 @@ export class Board {
         }
     }
 
+    public reset() {
+        for(let i = 0; i < this.rows; ++i) {
+            for(let j = 0; j < this.cols; ++j) {
+                this.board[i][j].clear_type();
+            }
+        }
+    }
+
     public resize(height: number, width: number, cell_size: number) {
         this.height = height;
         this.width = width;

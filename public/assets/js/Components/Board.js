@@ -35,6 +35,13 @@ export class Board {
             this.dom_board.appendChild(new_row);
         }
     }
+    reset() {
+        for (let i = 0; i < this.rows; ++i) {
+            for (let j = 0; j < this.cols; ++j) {
+                this.board[i][j].clear_type();
+            }
+        }
+    }
     resize(height, width, cell_size) {
         this.height = height;
         this.width = width;

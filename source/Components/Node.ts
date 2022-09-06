@@ -20,7 +20,7 @@ export class Node {
         this.type = node_definition.FREE;
     }
 
-    private clear_type() {
+    public clear_type() {
         this.weight = 0;
         this.type = node_definition.FREE;
         this.dom_node.style.backgroundColor = "";
