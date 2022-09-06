@@ -1,3 +1,4 @@
+import { Node } from "./Node.js";
 export class Board {
     dom_board;
     board_height;
@@ -5,7 +6,7 @@ export class Board {
     board_cell_size;
     board_rows;
     board_cols;
-    dom_board_cells;
+    nodes_board;
     constructor(dom_element, height, width, cell_size) {
         this.dom_board = dom_element;
         this.board_height = height;
@@ -15,9 +16,9 @@ export class Board {
         this.board_cols = Math.floor(this.board_width / this.board_cell_size);
         this.dom_board.style.height = this.board_height + "px";
         this.dom_board.style.width = this.board_width + "px";
-        this.dom_board_cells = [];
+        this.nodes_board = [];
         for (let i = 0; i < this.board_rows; ++i) {
-            this.dom_board_cells.push(new Array(this.board_cols));
+            this.nodes_board.push(new Array(this.board_cols));
         }
         this.draw();
     }
@@ -26,8 +27,8 @@ export class Board {
             let new_row = document.createElement("tr");
             for (let j = 0; j < this.board_cols; ++j) {
                 let new_cell = document.createElement("td");
-                this.dom_board_cells[i][j] = new_cell;
-                new_row.appendChild(this.dom_board_cells[i][j]);
+                this.nodes_board[i][j] = new Node(new_cell, i, j);
+                new_row.appendChild(this.nodes_board[i][j].get_html_element());
             }
             this.dom_board.appendChild(new_row);
         }

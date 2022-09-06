@@ -1,6 +1,6 @@
-import { NodeDefinition } from "../../public/assets/js/Definitions/NodeDefinition";
+import { NodeDefinition } from '../Definitions/NodeDefinition.js'
 
-let node_definition:NodeDefinition;
+let node_definition:NodeDefinition = new NodeDefinition();
 
 export class Node {
     private dom_node: HTMLElement;

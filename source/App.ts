@@ -2,10 +2,10 @@
 import { Board } from './Components/Board.js'
 
 // DOM Elements
-let playground:HTMLElement = document.getElementById("playground")!;
+let dom_board:HTMLElement = document.getElementById("board")!;
 
 // Board
-let board:Board = new Board(playground, window.innerHeight - parseInt(String(document.getElementById("navi")?.offsetHeight), 10),
-            playground.offsetWidth, 30);
+let board:Board = new Board(dom_board, window.innerHeight - parseInt(String(document.getElementById("navi")?.offsetHeight), 10),
+            dom_board.offsetWidth, 30);
 
 // Event Listeners

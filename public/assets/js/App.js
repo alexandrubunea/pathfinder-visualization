@@ -1,6 +1,7 @@
 // Libraries
 import { Board } from './Components/Board.js';
 // DOM Elements
-let playground = document.getElementById("playground");
+let dom_board = document.getElementById("board");
 // Board
-let board = new Board(playground, window.innerHeight - parseInt(String(document.getElementById("navi")?.offsetHeight), 10), playground.offsetWidth, 30);
+let board = new Board(dom_board, window.innerHeight - parseInt(String(document.getElementById("navi")?.offsetHeight), 10), dom_board.offsetWidth, 30);
+// Event Listeners
