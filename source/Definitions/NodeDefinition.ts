@@ -5,13 +5,17 @@ export class NodeDefinition {
     public WEIGHTED: number;
     public BLOCKED: number;
     public CHECKPOINT: number;
+    public VISITED: number;
+    public PATH: number;
 
     constructor() {
         this.FREE = 0;
         this.START = 1;
         this.STOP = 2;
-        this.WEIGHTED = 3;
-        this.BLOCKED = 4;
-        this.CHECKPOINT = 5;
+        this.BLOCKED = 3;
+        this.CHECKPOINT = 4;
+        this.VISITED = 5;
+        this.PATH = 6;
+        this.WEIGHTED = 7;
     }
 }

@@ -8,6 +8,7 @@ export class Node {
     private col: number;
     private weight: number;
     private type: number;
+    private checkpoint: number;
 
     constructor(dom_element: HTMLElement, i: number, j: number) {
         this.dom_node = dom_element;
@@ -16,6 +17,7 @@ export class Node {
 
         this.weight = 0;
         this.type = node_definition.FREE;
+        this.checkpoint = -1;
     }
 
     public get_html_element() {
