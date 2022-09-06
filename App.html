@@ -11,11 +11,11 @@
     <link href="assets/style.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="pathfinder_menu py-3">
+    <header id="navi">
+        <div class="pathfinder_menu pb-2">
             <nav class="navbar">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="App.html"><i class="bi bi-geo-alt-fill logo"></i> Pahtfinder Visualization </a>
+                    <a class="navbar-brand" href="App.html"><i class="bi bi-geo-alt-fill selected"></i> Pahtfinder Visualization </a>
                     <button class="btn btn-dark-mode d-flex" type="button" data-bs-toggle="collapse" data-bs-target="#app_config_collapse" aria-expanded="false" aria-controls="app_config_collapse">
                         <i class="bi bi-sliders btn-sm"></i>
                     </button>
@@ -24,7 +24,7 @@
             <div class="container-fluid">
                 <div class="row collapse" id="app_config_collapse">
                     <div class="col-md">
-                        <p class="text-uppercase text-center">Algorithm Settings</p>
+                        <p class="text-uppercase text-center title tilt-left my-3">Algorithm Settings</p>
                         <div class="form-floating">
                             <select class="form-select" id="select_algorithm" aria-label="Floating label select example">
                               <option value="0" selected>None</option>
@@ -54,12 +54,12 @@
                         </div>
                     </div>
                     <div class="col-md">
-                        <p class="text-uppercase text-center">Playground Configuration</p>
+                        <p class="text-uppercase text-center title tilt-right my-3">Playground Configuration</p>
                         <input type="text" class="form-control" id="playground_height" placeholder="AUTO">
                         <label for="playground_height" class="small">Type the playground's height (pixels)</label>
                         <input type="text" class="form-control mt-2" id="playground_width" placeholder="AUTO">
                         <label for="playground_width" class="small">Type the playground's width (pixels)</label>
-                        <input type="text" class="form-control mt-2" id="playground_width" placeholder="50">
+                        <input type="text" class="form-control mt-2" id="playground_width" placeholder="30">
                         <label for="playground_width" class="small">Type the playground's cell size (pixels)</label>
     
                         <div class="button-group mt-4">
@@ -72,7 +72,7 @@
                         </p>
                     </div>
                     <div class="col-md">
-                        <p class="text-uppercase text-center">Playground Tools</p>
+                        <p class="text-uppercase text-center title tilt-left my-3">Playground Tools</p>
                         <div class="essential-nodes">
                             <span>Essential Nodes:<br></span>
                             <div class="node-tool" id="tool_start_node"><i class="bi bi-diamond-fill"></i></div>
@@ -111,9 +111,9 @@
             </div>
         </div>
     </header>
-    <div class="container-fluid playground">
+    <table id="playground">
         
-    </div>
+    </table>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="source/compiled/App.js"></script>
 </body>

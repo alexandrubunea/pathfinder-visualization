@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap');
+
+/* Application Menu */
 body {
     background-color: #242426;
     color: #EDEDFC;
     font-family: 'Poppins', sans-serif;
+    overflow-y: scroll;
 }
 .pathfinder_menu {
     border-bottom: 2px solid #EDEDFC;
@@ -23,34 +26,39 @@ select:focus, input:focus, button:focus {
     background-color: #383759;
     color: #EDEDFC;
 }
-.logo {
-    color: #583BE0;
-}
 .node-tool {
     display: inline-block;
     font-size:2em;
 }
+.selected {
+    color: #583BE0;
+}
 .legend {
-    font-size: .7em;
+    font-size:.7em;
 }
 nav a, nav a:hover {
     color: #EDEDFC;
     text-decoration: none;
 }
-.playground {
-    margin-top: .5em;
+.title {
+    background-color: #4D4A8C;
+    width:50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.tilt-right {
+    transform:rotate(2deg);
+}
+.tilt-left {
+    transform:rotate(-2deg);
+}
+
+/* Grid */
+#playground {
+    margin-left: auto;
+    margin-right: auto;
     width: 100%;
-    max-width: 100%;
 }
-.square {
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-}
-.outline-first-square {
-    border: 1px solid #EDEDFC;
-}
-.outline-square {
-    border: 1px solid #EDEDFC;
-    border-left: none;
+td, tr {
+    border: 1px solid white;
 }
