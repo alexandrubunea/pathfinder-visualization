@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "./compiled/",
+        "outDir": "./public/assets/js",
         "target": "ESNext",
         "module": "ESNext",
         "watch": true,
