@@ -10,6 +10,7 @@ export class Node {
     private col: number;
     private weight: number;
     private type: number;
+    private visited: number;
 
     constructor(dom_element: HTMLElement, i: number, j: number) {
         this.dom_node = dom_element;
@@ -17,14 +18,17 @@ export class Node {
         this.col = j;
 
         this.weight = 1;
+        this.visited = 0;
         this.type = node_definition.FREE;
     }
 
     public clear_type() {
         this.weight = 1;
         this.type = node_definition.FREE;
+        this.visited = 0;
         this.dom_node.style.backgroundColor = "";
         this.dom_node.innerHTML = '';
+        this.dom_node.className = '';
     }
 
     public update_type(tool_selected: number, start_exist: boolean, stop_exist: boolean, checkpoint_exist: boolean) {
@@ -143,10 +147,38 @@ export class Node {
         }
     }
 
+    public mark_visited(times: number) {
+        this.dom_node.className = '';
+        this.dom_node.classList.add(String("visited" + times));
+        this.visited = times;
+    }
+    public mark_path(times: number) {
+        this.type = node_definition.PATH;
+        this.dom_node.className = '';
+        this.dom_node.classList.add(String("path" + times));
+    }
+    public dig_stop_point() { // recover the stop point if it's burried under the path
+        this.dom_node.className = '';
+        this.type = node_definition.STOP;
+    }
+
     public get_html_element() {
         return this.dom_node;
     }
     public get_type() {
         return this.type;
     }
+    public get_weight() {
+        return this.weight;
+    }
+    public get_row() {
+        return this.row;
+    }
+    public get_col() {
+        return this.col;
+    }
+    public get_visits() {
+        return this.visited;
+    }
+
 }

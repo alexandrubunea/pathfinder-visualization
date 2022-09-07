@@ -5,7 +5,6 @@ export class NodeDefinition {
     public WEIGHTED: number;
     public BLOCKED: number;
     public CHECKPOINT: number;
-    public VISITED: number;
     public PATH: number;
 
     constructor() {
@@ -14,8 +13,7 @@ export class NodeDefinition {
         this.STOP = 2;
         this.BLOCKED = 3;
         this.CHECKPOINT = 4;
-        this.VISITED = 5;
-        this.PATH = 6;
-        this.WEIGHTED = 7;
+        this.PATH = 5;
+        this.WEIGHTED = 6;
     }
 }

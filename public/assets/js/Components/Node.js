@@ -8,18 +8,22 @@ export class Node {
     col;
     weight;
     type;
+    visited;
     constructor(dom_element, i, j) {
         this.dom_node = dom_element;
         this.row = i;
         this.col = j;
         this.weight = 1;
+        this.visited = 0;
         this.type = node_definition.FREE;
     }
     clear_type() {
         this.weight = 1;
         this.type = node_definition.FREE;
+        this.visited = 0;
         this.dom_node.style.backgroundColor = "";
         this.dom_node.innerHTML = '';
+        this.dom_node.className = '';
     }
     update_type(tool_selected, start_exist, stop_exist, checkpoint_exist) {
         switch (tool_selected) {
@@ -139,10 +143,36 @@ export class Node {
             }
         }
     }
+    mark_visited(times) {
+        this.dom_node.className = '';
+        this.dom_node.classList.add(String("visited" + times));
+        this.visited = times;
+    }
+    mark_path(times) {
+        this.type = node_definition.PATH;
+        this.dom_node.className = '';
+        this.dom_node.classList.add(String("path" + times));
+    }
+    dig_stop_point() {
+        this.dom_node.className = '';
+        this.type = node_definition.STOP;
+    }
     get_html_element() {
         return this.dom_node;
     }
     get_type() {
         return this.type;
+    }
+    get_weight() {
+        return this.weight;
+    }
+    get_row() {
+        return this.row;
+    }
+    get_col() {
+        return this.col;
+    }
+    get_visits() {
+        return this.visited;
     }
 }

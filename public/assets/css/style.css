@@ -66,3 +66,15 @@ td, tr {
     border: 1px solid white;
     text-align: center;
 }
+.visited1 {
+    background-color: #C4357A !important;
+}
+.visited2 {
+    background-color: #084BCF !important;
+}
+.path1 {
+    background-color: #3E00A8 !important;
+}
+.path2 {
+    background-color: #E97AFF !important;
+}

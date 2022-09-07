@@ -3,6 +3,7 @@ import { Board } from './Components/Board.js'
 import { ToolsDefinition } from './Definitions/ToolsDefinition.js'
 import { NodeDefinition } from './Definitions/NodeDefinition.js'
 import { AglorithmDefinition } from './Definitions/AlgorithmDefinition.js'
+import { Dijkstra } from './Algorithms/Dijkstra.js'
 
 // DOM Elements
 let dom_board: HTMLElement = document.getElementById("board")!;
@@ -43,6 +44,9 @@ let tool_definition: ToolsDefinition = new ToolsDefinition();
 let node_definition: NodeDefinition = new NodeDefinition();
 let algorithm_definition: AglorithmDefinition = new AglorithmDefinition();
 
+// Algorithms
+let dijkstra: Dijkstra;
+
 // App
 let tool_selected: number = tool_definition.NO_TOOL;
 let algorithm_selected: number = algorithm_definition.NONE;
@@ -50,6 +54,7 @@ let algorithm_speed: number = 1;
 let is_disabled_weight:boolean = true;
 let no_algo_selected:boolean = true;
 let algorithm_is_running:boolean = false;
+let just_used:boolean = false;
 
 // Event Listeners
 
@@ -68,6 +73,7 @@ btn_apply_board_size.addEventListener("click", () => {
 
     board.resize(height, width, cell_size);
     add_nodes_event_listener();
+    init_algorithm();
 });
 btn_reset_board_size.addEventListener("click", () => {
     dom_board.style.width = '100%';
@@ -75,6 +81,8 @@ btn_reset_board_size.addEventListener("click", () => {
     board_width.value = '';
     board_cell_size.value = '';
     board.resize(window.innerHeight - parseInt(String(document.getElementById("navi")!.offsetHeight), 10) - 10, dom_board.offsetWidth, 30);
+    init_algorithm();
+    just_used = false;
 });
 
 // Algorithm Settings
@@ -82,10 +90,14 @@ select_algorithm.addEventListener("change", () => {
     if(algorithm_is_running) return;
     board.reset();
     algorithm_selected = Number(select_algorithm.value);
+    init_algorithm();
+    just_used = false;
 
     let essential_nodess_config = document.getElementById("essential-nodes")!;
     let weighted_nodes_config = document.getElementById("weighted-nodes")!;
     let other_nodes_config = document.getElementById("other-nodes")!;
+
+    // we use no_algo_selected and is_disabled_weight to avoid same class duplication
 
     if(algorithm_selected == algorithm_definition.NONE) {
         if(!no_algo_selected) {
@@ -104,7 +116,7 @@ select_algorithm.addEventListener("change", () => {
         other_nodes_config.classList.remove("disabled-tool");
     }
 
-    if(algorithm_selected == algorithm_definition.DIJKSTRSA || algorithm_selected == algorithm_definition.ASTAR) {
+    if(algorithm_selected == algorithm_definition.DIJKSTRA || algorithm_selected == algorithm_definition.ASTAR) {
         weighted_nodes_config.classList.remove("disabled-tool");
         is_disabled_weight = false;
     } else {
@@ -126,15 +138,39 @@ select_algorithm.addEventListener("change", () => {
 select_speed.addEventListener("change", () => {
     if(algorithm_is_running) return;
     algorithm_speed = Number(select_speed.value);
+    update_algorithm_speed();
 });
 btn_algorithm_reset.addEventListener("click", () => {
     if(algorithm_is_running) return;
     board.reset();
+    just_used = false;
+    init_algorithm();
 });
 btn_algorithm_start.addEventListener("click", () => {
     if(algorithm_is_running) return;
     if(algorithm_selected == algorithm_definition.NONE) return alert("You must select an algorithm first!");
+    if(just_used) return alert("You must clear the board first!");
     algorithm_is_running = true;
+    switch(algorithm_selected) {
+        case algorithm_definition.BFS: {
+
+            break;
+        }
+        case algorithm_definition.DFS: {
+
+            break;
+        }
+        case algorithm_definition.DIJKSTRA: {
+            dijkstra.start();
+            break;
+        }
+        case algorithm_definition.ASTAR: {
+
+            break;
+        }
+    }
+    algorithm_is_running = false;
+    just_used = true;
 });
 
 // Select Tool
@@ -238,7 +274,6 @@ function add_nodes_event_listener() {
         }
     }
 }
-
 function turn_off_last_used_tool() {
     switch(tool_selected) {
         case tool_definition.NO_TOOL: {
@@ -327,4 +362,50 @@ function does_checkpoint_node_exist() {
         }
     }
     return false;
+}
+function init_algorithm() {
+    switch(algorithm_selected) {
+        case algorithm_definition.NONE: {
+            return;
+        }
+        case algorithm_definition.BFS: {
+
+            break;
+        }
+        case algorithm_definition.DFS: {
+
+            break;
+        }
+        case algorithm_definition.DIJKSTRA: {
+            dijkstra = new Dijkstra(board, algorithm_speed);
+            break;
+        }
+        case algorithm_definition.ASTAR: {
+
+            break;
+        }
+    }
+}
+function update_algorithm_speed() {
+    switch(algorithm_selected) {
+        case algorithm_definition.NONE: {
+            return;
+        }
+        case algorithm_definition.BFS: {
+
+            break;
+        }
+        case algorithm_definition.DFS: {
+
+            break;
+        }
+        case algorithm_definition.DIJKSTRA: {
+            dijkstra.update_speed(algorithm_speed);
+            break;
+        }
+        case algorithm_definition.ASTAR: {
+
+            break;
+        }
+    }
 }
