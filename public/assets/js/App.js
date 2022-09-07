@@ -132,7 +132,7 @@ btn_algorithm_reset.addEventListener("click", () => {
     just_used = false;
     init_algorithm();
 });
-btn_algorithm_start.addEventListener("click", () => {
+btn_algorithm_start.addEventListener("click", async () => {
     if (algorithm_is_running)
         return;
     if (algorithm_selected == algorithm_definition.NONE)
@@ -148,7 +148,7 @@ btn_algorithm_start.addEventListener("click", () => {
             break;
         }
         case algorithm_definition.DIJKSTRA: {
-            dijkstra.start();
+            await dijkstra.start();
             break;
         }
         case algorithm_definition.ASTAR: {

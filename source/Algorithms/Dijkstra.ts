@@ -22,104 +22,122 @@ export class Dijkstra {
         this.animation_speed = value;
     }
 
-    private algorithm(start_point: number[], stop_point: number[], times_visited: number) {
-        
+    private async algorithm(start_point: number[], stop_point: number[], times_visited: number) {
+        return new Promise<void>((resolve) => {
+            let start = start_point;
+            let stop = stop_point;
 
-        let start = start_point;
-        let stop = stop_point;
-
-        let min_heap: Heap = new Heap((a: any[], b: any[]) => {
-            return a[0] < b[0];
-        });
-        let compass: number[][] = [
-            [-1, 0],
-            [1, 0],
-            [0, -1],
-            [0, 1]
-        ];
-        let distance_map: number[][] = new Array();
-        for(let i = 0; i < this.board.get_rows(); ++i) {
-            distance_map.push(new Array(this.board.get_cols()));
-        }
-        for(let i = 0; i < this.board.get_rows(); ++i) {
-            for(let j = 0; j < this.board.get_cols(); ++j) {
-                distance_map[i][j] = Infinity;
+            let min_heap: Heap = new Heap((a: any[], b: any[]) => {
+                return a[0] < b[0];
+            });
+            let compass: number[][] = [
+                [-1, 0],
+                [1, 0],
+                [0, -1],
+                [0, 1]
+            ];
+            let distance_map: number[][] = new Array();
+            for(let i = 0; i < this.board.get_rows(); ++i) {
+                distance_map.push(new Array(this.board.get_cols()));
             }
-        }
-        distance_map[start[0]][start[1]] = 0;
-        min_heap.insert([0, this.board.get_nodes_array()[start[0]][start[1]]]);
-        let stop_found = false;
+            for(let i = 0; i < this.board.get_rows(); ++i) {
+                for(let j = 0; j < this.board.get_cols(); ++j) {
+                    distance_map[i][j] = Infinity;
+                }
+            }
+            distance_map[start[0]][start[1]] = 0;
+            min_heap.insert([0, this.board.get_nodes_array()[start[0]][start[1]]]);
+            let stop_found = false;
 
-        while(min_heap.peek() != null && !stop_found) {
-            let i = min_heap.peek()[1].get_row();
-            let j = min_heap.peek()[1].get_col();
-            let current_node = this.board.get_nodes_array()[i][j];
+            let visit_animation = setInterval(() => {
+                let i = min_heap.peek()[1].get_row();
+                let j = min_heap.peek()[1].get_col();
+                let current_node = this.board.get_nodes_array()[i][j];
 
-            if(current_node.get_visits() != times_visited) {
-                for(let k = 0; k < 4; ++k) {
-                    let new_i = i + compass[k][0];
-                    let new_j = j + compass[k][1];
+                if(current_node.get_visits() != times_visited) {
+                    for(let k = 0; k < 4; ++k) {
+                        let new_i = i + compass[k][0];
+                        let new_j = j + compass[k][1];
 
-                    if(!this.out_of_boundries(new_i, new_j)) {
-                        let next_node = this.board.get_nodes_array()[new_i][new_j];
-                        if(next_node.get_visits() != times_visited && next_node.get_type() != node_definition.BLOCKED &&
-                        next_node.get_type() != node_definition.PATH) {
-                            let distance = distance_map[i][j] + next_node.get_weight();
-                            if(distance < distance_map[new_i][new_j]) {
-                                distance_map[new_i][new_j] = distance;
-                                min_heap.insert([distance, next_node]);
+                        if(!this.out_of_boundries(new_i, new_j)) {
+                            let next_node = this.board.get_nodes_array()[new_i][new_j];
+                            if(next_node.get_visits() != times_visited && next_node.get_type() != node_definition.BLOCKED &&
+                            next_node.get_type() != node_definition.PATH) {
+                                let distance = distance_map[i][j] + next_node.get_weight();
+                                if(distance < distance_map[new_i][new_j]) {
+                                    distance_map[new_i][new_j] = distance;
+                                    min_heap.insert([distance, next_node]);
 
-                                if(new_i == stop[0] && new_j == stop[1]) {
-                                    stop_found = true;
-                                    console.log("stop found");
+                                    if(new_i == stop[0] && new_j == stop[1]) {
+                                        stop_found = true;
+                                    }
                                 }
                             }
                         }
                     }
+                    current_node.mark_visited(times_visited);
                 }
-                current_node.mark_visited(times_visited);
+
+                min_heap.pop();
+
+                if(min_heap.peek() == null || stop_found) {
+                    clearInterval(visit_animation);
+                    finish();
+                }
+            }, 20 * this.animation_speed);
+
+            let finish = async() => {
+                if(stop_found) {
+                    await path_animation();
+                }
+                resolve();
             }
 
-            min_heap.pop();
-        }
+            let path_animation = async () => {
+                return new Promise<void>((resolve) => {
+                    let queue: number[][] = [];
+                    queue.push(stop);
 
-        if(stop_found) {
-            let queue: number[][] = [];
-            queue.push(stop);
+                    let path_animation = setInterval(() => {
+                        let i = queue[0][0];
+                        let j = queue[0][1];
 
-            while(queue.length > 0) {
-                let i = queue[0][0];
-                let j = queue[0][1];
+                        this.board.get_nodes_array()[i][j].mark_path(times_visited);
 
-                this.board.get_nodes_array()[i][j].mark_path(times_visited);
+                        let min = Infinity;
+                        let min_i = Infinity;
+                        let min_j = Infinity;
 
-                let min = Infinity;
-                let min_i = Infinity;
-                let min_j = Infinity;
+                        for(let k = 0; k < 4; ++k) {
+                            let new_i = i + compass[k][0];
+                            let new_j = j + compass[k][1];
 
-                for(let k = 0; k < 4; ++k) {
-                    let new_i = i + compass[k][0];
-                    let new_j = j + compass[k][1];
-
-                    if(!this.out_of_boundries(new_i, new_j)) {
-                        if(distance_map[new_i][new_j] < distance_map[i][j]) {
-                            if(distance_map[new_i][new_j] < min) {
-                                min = distance_map[new_i][new_j];
-                                min_i = new_i;
-                                min_j = new_j;
+                            if(!this.out_of_boundries(new_i, new_j)) {
+                                if(distance_map[new_i][new_j] < distance_map[i][j]) {
+                                    if(distance_map[new_i][new_j] < min) {
+                                        min = distance_map[new_i][new_j];
+                                        min_i = new_i;
+                                        min_j = new_j;
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                queue.shift();
-                if(min != Infinity) {
-                    queue.push([min_i, min_j]);
-                }
-            }
-        }
+                        queue.shift();
+                        if(min != Infinity) {
+                            queue.push([min_i, min_j]);
+                        }
+
+                        if(queue.length == 0) {
+                            clearInterval(path_animation);
+                            resolve();
+                        }
+                    }, 20 * this.animation_speed);
+                });
+           }
+        });
     }
 
-    public start() {
+    public async start() {
         let start: number[] = [];
         let stop: number[] = [];
         let checkpoint: number[] = [];
@@ -143,11 +161,11 @@ export class Dijkstra {
         if(start.length == 0 || stop.length == 0) return alert("You must have a start and a stop point on your board!");
 
         if(checkpoint.length > 0) {
-            this.algorithm(start, checkpoint, 1);
-            this.board.get_nodes_array()[stop[0]][stop[1]].dig_stop_point();
-            this.algorithm(checkpoint, stop, 2);
+            await this.algorithm(start, checkpoint, 1)
+            this.board.get_nodes_array()[stop[0]][stop[1]].recover_point();
+            await this.algorithm(checkpoint, stop, 2);
         } else {
-            this.algorithm(start, stop, 1);
+            await this.algorithm(start, stop, 1);
         }
     }
 }

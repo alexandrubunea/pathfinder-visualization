@@ -153,9 +153,8 @@ export class Node {
         this.dom_node.className = '';
         this.dom_node.classList.add(String("path" + times));
     }
-    dig_stop_point() {
+    recover_point() {
         this.dom_node.className = '';
-        this.type = node_definition.STOP;
     }
     get_html_element() {
         return this.dom_node;
