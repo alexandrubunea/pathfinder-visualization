@@ -8,11 +8,11 @@ export class Heap {
         this.data.push(-Infinity); // dummy node
     }
     get_father(x) {
-        return Math.floor(x / 2);
+        return Math.floor(x >> 1);
     }
     down_heap(pos) {
-        let left_child = pos * 2;
-        let right_child = pos * 2 + 1;
+        let left_child = pos << 1;
+        let right_child = (pos << 1) + 1;
         let min = left_child;
         if (left_child >= this.data.length)
             min = right_child;

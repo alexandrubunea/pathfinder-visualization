@@ -11,11 +11,11 @@ export class Heap {
     }
 
     private get_father(x: number) {
-        return Math.floor(x / 2);
+        return Math.floor(x >> 1);
     }
     private down_heap(pos: number) {
-        let left_child: number = pos * 2;
-        let right_child: number = pos * 2 + 1;
+        let left_child: number = pos << 1;
+        let right_child: number = (pos << 1) + 1;
         let min: number = left_child;
 
         if(left_child >= this.data.length)

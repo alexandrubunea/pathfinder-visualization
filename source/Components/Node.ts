@@ -157,8 +157,9 @@ export class Node {
         this.dom_node.className = '';
         this.dom_node.classList.add(String("path" + times));
     }
-    public recover_point() { // recover the stop/check point if it's burried under the path
+    public recover_point(node_type:number = node_definition.FREE) { // recover the stop/check point if it's burried under the path
         this.dom_node.className = '';
+        this.type = node_type;
     }
 
     public get_html_element() {

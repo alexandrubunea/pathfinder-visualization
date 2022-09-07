@@ -153,8 +153,9 @@ export class Node {
         this.dom_node.className = '';
         this.dom_node.classList.add(String("path" + times));
     }
-    recover_point() {
+    recover_point(node_type = node_definition.FREE) {
         this.dom_node.className = '';
+        this.type = node_type;
     }
     get_html_element() {
         return this.dom_node;

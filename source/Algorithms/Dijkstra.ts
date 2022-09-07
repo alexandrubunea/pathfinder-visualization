@@ -162,7 +162,7 @@ export class Dijkstra {
 
         if(checkpoint.length > 0) {
             await this.algorithm(start, checkpoint, 1)
-            this.board.get_nodes_array()[stop[0]][stop[1]].recover_point();
+            this.board.get_nodes_array()[stop[0]][stop[1]].recover_point(node_definition.STOP);
             await this.algorithm(checkpoint, stop, 2);
         } else {
             await this.algorithm(start, stop, 1);

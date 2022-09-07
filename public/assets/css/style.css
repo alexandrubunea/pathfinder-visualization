@@ -63,7 +63,7 @@ nav a, nav a:hover {
     table-layout: fixed;
 }
 td, tr {
-    border: 1px solid white;
+    border: 1px solid #56565C;
     text-align: center;
 }
 .visited1 {
