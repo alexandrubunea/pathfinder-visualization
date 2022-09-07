@@ -5,7 +5,7 @@ import { NodeDefinition } from './Definitions/NodeDefinition.js'
 import { AglorithmDefinition } from './Definitions/AlgorithmDefinition.js'
 
 // DOM Elements
-let dom_board :HTMLElement = document.getElementById("board")!;
+let dom_board: HTMLElement = document.getElementById("board")!;
 
 let btn_apply_board_size: HTMLButtonElement = document.getElementById("btn_apply_board_size") as HTMLButtonElement;
 let btn_reset_board_size: HTMLButtonElement = document.getElementById("btn_reset_board_size") as HTMLButtonElement;
@@ -48,6 +48,7 @@ let tool_selected: number = tool_definition.NO_TOOL;
 let algorithm_selected: number = algorithm_definition.NONE;
 let algorithm_speed: number = 1;
 let is_disabled_weight:boolean = true;
+let no_algo_selected:boolean = true;
 let algorithm_is_running:boolean = false;
 
 // Event Listeners
@@ -82,7 +83,26 @@ select_algorithm.addEventListener("change", () => {
     board.reset();
     algorithm_selected = Number(select_algorithm.value);
 
+    let essential_nodess_config = document.getElementById("essential-nodes")!;
     let weighted_nodes_config = document.getElementById("weighted-nodes")!;
+    let other_nodes_config = document.getElementById("other-nodes")!;
+
+    if(algorithm_selected == algorithm_definition.NONE) {
+        if(!no_algo_selected) {
+            no_algo_selected = true;
+            essential_nodess_config.classList.add("disabled-tool");
+            other_nodes_config.classList.add("disabled-tool");
+            tool_start_node.classList.remove("selected");
+            tool_stop_node.classList.remove("selected");
+            tool_checkpoint_node.classList.remove("selected");
+            tool_erase_node.classList.remove("selected");
+            tool_blocked_node.classList.remove("selected");
+        }
+    } else {
+        no_algo_selected = false;
+        essential_nodess_config.classList.remove("disabled-tool");
+        other_nodes_config.classList.remove("disabled-tool");
+    }
 
     if(algorithm_selected == algorithm_definition.DIJKSTRSA || algorithm_selected == algorithm_definition.ASTAR) {
         weighted_nodes_config.classList.remove("disabled-tool");
@@ -113,100 +133,92 @@ btn_algorithm_reset.addEventListener("click", () => {
 });
 btn_algorithm_start.addEventListener("click", () => {
     if(algorithm_is_running) return;
+    if(algorithm_selected == algorithm_definition.NONE) return alert("You must select an algorithm first!");
     algorithm_is_running = true;
 });
 
 // Select Tool
 tool_start_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
+    if(algorithm_is_running || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.START_TOOL;
     tool_start_node.classList.add("selected");
 });
 tool_stop_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
+    if(algorithm_is_running || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.STOP_TOOL;
     tool_stop_node.classList.add("selected");
 });
 tool_w1_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
-    if(is_disabled_weight) return;
+    if(algorithm_is_running || is_disabled_weight || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.WEIGHT_TOOL;
     tool_w1_node.classList.add("selected");
 });
 tool_w2_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
-    if(is_disabled_weight) return;
+    if(algorithm_is_running || is_disabled_weight || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.WEIGHT_TOOL + 1;
     tool_w2_node.classList.add("selected");
 });
 tool_w3_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
-    if(is_disabled_weight) return;
+    if(algorithm_is_running || is_disabled_weight || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.WEIGHT_TOOL + 2;
     tool_w3_node.classList.add("selected");
 });
 tool_w4_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
-    if(is_disabled_weight) return;
+    if(algorithm_is_running || is_disabled_weight || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.WEIGHT_TOOL + 3;
     tool_w4_node.classList.add("selected");
 });
 tool_w5_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
-    if(is_disabled_weight) return;
+    if(algorithm_is_running || is_disabled_weight || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.WEIGHT_TOOL + 4;
     tool_w5_node.classList.add("selected");
 });
 tool_w6_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
-    if(is_disabled_weight) return;
+    if(algorithm_is_running || is_disabled_weight || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.WEIGHT_TOOL + 5;
     tool_w6_node.classList.add("selected");
 });
 tool_w7_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
-    if(is_disabled_weight) return;
+    if(algorithm_is_running || is_disabled_weight || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.WEIGHT_TOOL + 6;
     tool_w7_node.classList.add("selected");
 });
 tool_w8_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
-    if(is_disabled_weight) return;
+    if(algorithm_is_running || is_disabled_weight || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.WEIGHT_TOOL + 7;
     tool_w8_node.classList.add("selected");
 });
 tool_w9_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
-    if(is_disabled_weight) return;
+    if(algorithm_is_running || is_disabled_weight || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.WEIGHT_TOOL + 8;
     tool_w9_node.classList.add("selected");
 });
 tool_blocked_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
+    if(algorithm_is_running || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.BLOCK_TOOL;
     tool_blocked_node.classList.add("selected");
 });
 tool_checkpoint_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
+    if(algorithm_is_running || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.CHECKPOINT_TOOL;
     tool_checkpoint_node.classList.add("selected");
 
 });
 tool_erase_node.addEventListener("click", () => {
-    if(algorithm_is_running) return;
+    if(algorithm_is_running || no_algo_selected) return;
     turn_off_last_used_tool();
     tool_selected = tool_definition.ERASE_TOOL;
     tool_erase_node.classList.add("selected");

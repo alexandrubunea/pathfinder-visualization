@@ -12,11 +12,11 @@ export class Node {
         this.dom_node = dom_element;
         this.row = i;
         this.col = j;
-        this.weight = 0;
+        this.weight = 1;
         this.type = node_definition.FREE;
     }
     clear_type() {
-        this.weight = 0;
+        this.weight = 1;
         this.type = node_definition.FREE;
         this.dom_node.style.backgroundColor = "";
         this.dom_node.innerHTML = '';
