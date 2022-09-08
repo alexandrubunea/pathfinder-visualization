@@ -62,7 +62,7 @@ nav a, nav a:hover {
     width: 100%;
     table-layout: fixed;
 }
-td, tr {
+td {
     border: 1px solid #56565C;
     text-align: center;
 }
@@ -72,9 +72,25 @@ td, tr {
 .visited2 {
     background-color: #084BCF !important;
 }
+.visited3 {
+    background-color: #F2506E !important;
+}
+.visited4 {
+    background-color: #8C5D58 !important;
+}
 .path1 {
     background-color: #3E00A8 !important;
+    border:none !important;
 }
 .path2 {
     background-color: #E97AFF !important;
+    border: none !important;
+}
+.path3 {
+    background-color: #FFBA19 !important;
+    border: none !important;
+}
+.path4 {
+    background-color: #09B271 !important;
+    border: none !important;
 }

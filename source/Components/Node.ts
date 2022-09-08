@@ -10,7 +10,6 @@ export class Node {
     private col: number;
     private weight: number;
     private type: number;
-    private visited: number;
 
     constructor(dom_element: HTMLElement, i: number, j: number) {
         this.dom_node = dom_element;
@@ -18,20 +17,18 @@ export class Node {
         this.col = j;
 
         this.weight = 1;
-        this.visited = 0;
         this.type = node_definition.FREE;
     }
 
     public clear_type() {
         this.weight = 1;
         this.type = node_definition.FREE;
-        this.visited = 0;
         this.dom_node.style.backgroundColor = "";
         this.dom_node.innerHTML = '';
         this.dom_node.className = '';
     }
 
-    public update_type(tool_selected: number, start_exist: boolean, stop_exist: boolean, checkpoint_exist: boolean) {
+    public update_type(tool_selected: number, start_exist: boolean, stop_exist: boolean) {
         switch(tool_selected) {
             case tool_definition.NO_TOOL: {
                 this.dom_node.style.backgroundColor = "";
@@ -65,7 +62,6 @@ export class Node {
                 break;
             }
             case tool_definition.CHECKPOINT_TOOL: {
-                if(checkpoint_exist) return alert("You have placed already a checkpoint!");
                 this.clear_type();
                 this.dom_node.innerHTML = '<i class="bi bi-geo-alt-fill"></i>';
                 this.type = node_definition.CHECKPOINT;
@@ -150,7 +146,6 @@ export class Node {
     public mark_visited(times: number) {
         this.dom_node.className = '';
         this.dom_node.classList.add(String("visited" + times));
-        this.visited = times;
     }
     public mark_path(times: number) {
         this.type = node_definition.PATH;
@@ -176,9 +171,6 @@ export class Node {
     }
     public get_col() {
         return this.col;
-    }
-    public get_visits() {
-        return this.visited;
     }
 
 }

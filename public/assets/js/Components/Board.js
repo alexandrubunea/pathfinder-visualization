@@ -1,6 +1,4 @@
 import { Node } from "./Node.js";
-import { NodeDefinition } from "../Definitions/NodeDefinition.js";
-let node_definition = new NodeDefinition();
 export class Board {
     dom_board;
     height;

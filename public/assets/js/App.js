@@ -48,6 +48,8 @@ let just_used = false;
 // Event Listeners
 // Change Board Size
 btn_apply_board_size.addEventListener("click", () => {
+    if (algorithm_is_running)
+        return;
     let height = Number(board_height.value);
     let width = Number(board_width.value);
     let cell_size = Number(board_cell_size.value);
@@ -62,6 +64,8 @@ btn_apply_board_size.addEventListener("click", () => {
     init_algorithm();
 });
 btn_reset_board_size.addEventListener("click", () => {
+    if (algorithm_is_running)
+        return;
     dom_board.style.width = '100%';
     board_height.value = '';
     board_width.value = '';
@@ -140,6 +144,7 @@ btn_algorithm_start.addEventListener("click", async () => {
     if (just_used)
         return alert("You must clear the board first!");
     algorithm_is_running = true;
+    document.getElementsByClassName("row collapse")[0].classList.remove("show");
     switch (algorithm_selected) {
         case algorithm_definition.BFS: {
             break;
@@ -265,7 +270,7 @@ function add_nodes_event_listener() {
         for (let j = 0; j < board.get_cols(); ++j) {
             let node = board.get_nodes_array()[i][j];
             node.get_html_element().addEventListener("click", () => {
-                node.update_type(tool_selected, does_start_node_exist(), does_stop_node_exist(), does_checkpoint_node_exist());
+                node.update_type(tool_selected, does_start_node_exist(), does_stop_node_exist());
             });
         }
     }
@@ -347,15 +352,6 @@ function does_stop_node_exist() {
     for (let i = 0; i < board.get_rows(); ++i) {
         for (let j = 0; j < board.get_cols(); ++j) {
             if (board.get_nodes_array()[i][j].get_type() == node_definition.STOP)
-                return true;
-        }
-    }
-    return false;
-}
-function does_checkpoint_node_exist() {
-    for (let i = 0; i < board.get_rows(); ++i) {
-        for (let j = 0; j < board.get_cols(); ++j) {
-            if (board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT)
                 return true;
         }
     }

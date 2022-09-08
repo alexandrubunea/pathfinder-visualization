@@ -8,24 +8,21 @@ export class Node {
     col;
     weight;
     type;
-    visited;
     constructor(dom_element, i, j) {
         this.dom_node = dom_element;
         this.row = i;
         this.col = j;
         this.weight = 1;
-        this.visited = 0;
         this.type = node_definition.FREE;
     }
     clear_type() {
         this.weight = 1;
         this.type = node_definition.FREE;
-        this.visited = 0;
         this.dom_node.style.backgroundColor = "";
         this.dom_node.innerHTML = '';
         this.dom_node.className = '';
     }
-    update_type(tool_selected, start_exist, stop_exist, checkpoint_exist) {
+    update_type(tool_selected, start_exist, stop_exist) {
         switch (tool_selected) {
             case tool_definition.NO_TOOL: {
                 this.dom_node.style.backgroundColor = "";
@@ -61,8 +58,6 @@ export class Node {
                 break;
             }
             case tool_definition.CHECKPOINT_TOOL: {
-                if (checkpoint_exist)
-                    return alert("You have placed already a checkpoint!");
                 this.clear_type();
                 this.dom_node.innerHTML = '<i class="bi bi-geo-alt-fill"></i>';
                 this.type = node_definition.CHECKPOINT;
@@ -146,7 +141,6 @@ export class Node {
     mark_visited(times) {
         this.dom_node.className = '';
         this.dom_node.classList.add(String("visited" + times));
-        this.visited = times;
     }
     mark_path(times) {
         this.type = node_definition.PATH;
@@ -171,8 +165,5 @@ export class Node {
     }
     get_col() {
         return this.col;
-    }
-    get_visits() {
-        return this.visited;
     }
 }
