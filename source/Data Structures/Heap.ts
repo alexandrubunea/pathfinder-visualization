@@ -60,4 +60,8 @@ export class Heap {
         if(this.data.length > 1) return this.data[1];
         return null;
     }
+    public is_empty() {
+        if(this.data.length <= 1) return true;
+        return false;
+    }
 }

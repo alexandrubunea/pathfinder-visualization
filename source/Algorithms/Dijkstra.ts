@@ -29,10 +29,10 @@ export class Dijkstra {
     private async algorithm(start_point: number[], times_visited: number, type: number) {
         return new Promise<void>((resolve) => {
 
-            let min_heap: Heap = new Heap((a: any[], b: any[]) => {
+            let min_heap: Heap = new Heap((a: any, b: any) => {
                 return a[0] < b[0];
             });
-            let compass: number[][] = [
+            const compass: number[][] = [
                 [-1, 0],
                 [1, 0],
                 [0, -1],
@@ -53,14 +53,14 @@ export class Dijkstra {
 
             let visit_animation = setInterval(() => {
 
-                if(min_heap.peek() == null || stop_found) {
+                if(min_heap.is_empty() || stop_found) {
                     clearInterval(visit_animation);
                     finish();
                 }
 
                 let i = min_heap.peek()[1].get_row();
                 let j = min_heap.peek()[1].get_col();
-                let current_node = this.board.get_nodes_array()[i][j];
+                let current_node = min_heap.peek()[1];
 
                 if(this.visited.indexOf([i, j]) == -1) {
                     for(let k = 0; k < 4; ++k) {
@@ -103,12 +103,12 @@ export class Dijkstra {
 
             let path_animation = async () => {
                 return new Promise<void>((resolve) => {
-                    let queue: number[][] = [];
-                    queue.push(this.last_stop);
+                    let head: number[] = [];
+                    head = this.last_stop;
 
                     let path_animation = setInterval(() => {
-                        let i = queue[0][0];
-                        let j = queue[0][1];
+                        let i = head[0];
+                        let j = head[1];
 
                         this.board.get_nodes_array()[i][j].mark_path(times_visited);
 
@@ -130,12 +130,10 @@ export class Dijkstra {
                                 }
                             }
                         }
-                        queue.shift();
-                        if(min != Infinity) {
-                            queue.push([min_i, min_j]);
-                        }
 
-                        if(queue.length == 0) {
+                        if(min != Infinity) {
+                            head = [min_i, min_j];
+                        } else {
                             clearInterval(path_animation);
                             resolve();
                         }
@@ -153,14 +151,12 @@ export class Dijkstra {
         for(let i = 0; i < this.board.get_rows(); ++i) {
             for(let j = 0; j < this.board.get_cols(); ++j) {
                 if(this.board.get_nodes_array()[i][j].get_type() == node_definition.START) {
-                    start.push(i);
-                    start.push(j);
+                    start = [i, j];
                 }
-                if(this.board.get_nodes_array()[i][j].get_type() == node_definition.STOP) {
-                    stop.push(i);
-                    stop.push(j);
+                else if(this.board.get_nodes_array()[i][j].get_type() == node_definition.STOP) {
+                    stop = [i, j];
                 }
-                if(this.board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT) {
+                else if(this.board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT) {
                     ++checkpoints;
                 }
             }

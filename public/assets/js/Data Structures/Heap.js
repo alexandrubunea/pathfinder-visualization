@@ -53,4 +53,9 @@ export class Heap {
             return this.data[1];
         return null;
     }
+    is_empty() {
+        if (this.data.length <= 1)
+            return true;
+        return false;
+    }
 }
