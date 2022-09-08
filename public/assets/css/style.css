@@ -66,31 +66,31 @@ td {
     border: 1px solid #56565C;
     text-align: center;
 }
-.visited1 {
+.visited0 {
     background-color: #C4357A !important;
 }
-.visited2 {
+.visited1 {
     background-color: #084BCF !important;
 }
-.visited3 {
+.visited2 {
     background-color: #F2506E !important;
 }
-.visited4 {
+.visited3 {
     background-color: #8C5D58 !important;
 }
-.path1 {
+.path0 {
     background-color: #3E00A8 !important;
     border:none !important;
 }
-.path2 {
+.path1 {
     background-color: #E97AFF !important;
     border: none !important;
 }
-.path3 {
+.path2 {
     background-color: #FFBA19 !important;
     border: none !important;
 }
-.path4 {
+.path3 {
     background-color: #09B271 !important;
     border: none !important;
 }

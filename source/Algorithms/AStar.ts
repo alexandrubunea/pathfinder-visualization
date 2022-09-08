@@ -7,14 +7,14 @@ let node_definition: NodeDefinition = new NodeDefinition();
 export class AStar {
     private board: Board;
     private animation_speed: number;
-    private visited: number[][];
+    private visit_map: boolean[][];
     private path_blocked: boolean;
 
     constructor(board: Board, animation_speed: number) {
         this.board = board;
         this.animation_speed = animation_speed;
 
-        this.visited = [];
+        this.visit_map = [];
         this.path_blocked = false;
     }
 
@@ -25,6 +25,21 @@ export class AStar {
     private out_of_boundries(i: number, j: number) {
         if(i >= this.board.get_rows() || j >= this.board.get_cols() || i < 0 || j < 0) return true;
         return false;
+    }
+
+    private init_visit_map() {
+        for(let i = 0; i < this.board.get_rows(); ++i) {
+            this.visit_map.push(new Array(this.board.get_cols()));
+        }
+        this.reset_visit_map();
+    }
+
+    private reset_visit_map() {
+        for(let i = 0; i < this.board.get_rows(); ++i) {
+            for(let j = 0; j < this.board.get_cols(); ++j) {
+                this.visit_map[i][j] = false;
+            }
+        }
     }
 
     private async algorithm(start: number[], stop: number[], id: number) {
@@ -66,7 +81,7 @@ export class AStar {
                 let j = min_heap.peek()[1].get_col();
                 let current_node = min_heap.peek()[1];
 
-                if(this.visited.indexOf([i, j]) == -1) {
+                if(!this.visit_map[i][j]) {
                     for(let k = 0; k < 4; ++k) {
                         let new_i = i + compass[k][0];
                         let new_j = j + compass[k][1];
@@ -90,7 +105,7 @@ export class AStar {
                     }
                     if(current_node.get_type() != node_definition.PATH)
                         current_node.mark_visited(id);
-                    this.visited.push([i, j]);
+                    this.visit_map[i][j] = true;
                 }
 
                 min_heap.pop();
@@ -194,20 +209,24 @@ export class AStar {
             non_ordered_checkpoints.splice(id, 1);
         }
 
+        this.init_visit_map();
+
         if(non_ordered_checkpoints.length > 0) {
-            let k = 3;
+            let k = 1;
             let number_of_checkpoints = non_ordered_checkpoints.length - 1;
 
             update_checkpoints(start);
-            await this.algorithm(start, checkpoints.peek()[1], k % 4 + 1);
+            await this.algorithm(start, checkpoints.peek()[1], k % 4);
+
+            ++k;
             start = checkpoints.peek()[1];
+
             remove_unordered_checkpoint(start);
             update_checkpoints(start);
-            this.visited = [];
 
             for(let i = 0; i < number_of_checkpoints && !this.path_blocked; ++i) {
-                this.visited = [];
-                await this.algorithm(start, checkpoints.peek()[1], k % 4 + 1);
+                this.reset_visit_map();
+                await this.algorithm(start, checkpoints.peek()[1], k % 4);
 
                 start = checkpoints.peek()[1];
                 remove_unordered_checkpoint(start);
@@ -217,14 +236,13 @@ export class AStar {
             }
 
             if(!this.path_blocked) {
-                this.visited = [];
+                this.reset_visit_map();
                 this.board.get_nodes_array()[stop[0]][stop[1]].recover_point(node_definition.STOP);
 
-                await this.algorithm(start, stop, k % 4 + 1);
+                await this.algorithm(start, stop, k % 4);
             }
 
         } else {
-            this.visited = [];
             await this.algorithm(start, stop, 1);
         }
     }

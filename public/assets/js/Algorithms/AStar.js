@@ -4,12 +4,12 @@ let node_definition = new NodeDefinition();
 export class AStar {
     board;
     animation_speed;
-    visited;
+    visit_map;
     path_blocked;
     constructor(board, animation_speed) {
         this.board = board;
         this.animation_speed = animation_speed;
-        this.visited = [];
+        this.visit_map = [];
         this.path_blocked = false;
     }
     calculate_distance(point_a, point_b) {
@@ -19,6 +19,19 @@ export class AStar {
         if (i >= this.board.get_rows() || j >= this.board.get_cols() || i < 0 || j < 0)
             return true;
         return false;
+    }
+    init_visit_map() {
+        for (let i = 0; i < this.board.get_rows(); ++i) {
+            this.visit_map.push(new Array(this.board.get_cols()));
+        }
+        this.reset_visit_map();
+    }
+    reset_visit_map() {
+        for (let i = 0; i < this.board.get_rows(); ++i) {
+            for (let j = 0; j < this.board.get_cols(); ++j) {
+                this.visit_map[i][j] = false;
+            }
+        }
     }
     async algorithm(start, stop, id) {
         return new Promise((resolve) => {
@@ -51,7 +64,7 @@ export class AStar {
                 let i = min_heap.peek()[1].get_row();
                 let j = min_heap.peek()[1].get_col();
                 let current_node = min_heap.peek()[1];
-                if (this.visited.indexOf([i, j]) == -1) {
+                if (!this.visit_map[i][j]) {
                     for (let k = 0; k < 4; ++k) {
                         let new_i = i + compass[k][0];
                         let new_j = j + compass[k][1];
@@ -72,7 +85,7 @@ export class AStar {
                     }
                     if (current_node.get_type() != node_definition.PATH)
                         current_node.mark_visited(id);
-                    this.visited.push([i, j]);
+                    this.visit_map[i][j] = true;
                 }
                 min_heap.pop();
             }, 20 * this.animation_speed);
@@ -159,31 +172,31 @@ export class AStar {
             let id = non_ordered_checkpoints.indexOf(checkpoint);
             non_ordered_checkpoints.splice(id, 1);
         };
+        this.init_visit_map();
         if (non_ordered_checkpoints.length > 0) {
-            let k = 3;
+            let k = 1;
             let number_of_checkpoints = non_ordered_checkpoints.length - 1;
             update_checkpoints(start);
-            await this.algorithm(start, checkpoints.peek()[1], k % 4 + 1);
+            await this.algorithm(start, checkpoints.peek()[1], k % 4);
+            ++k;
             start = checkpoints.peek()[1];
             remove_unordered_checkpoint(start);
             update_checkpoints(start);
-            this.visited = [];
             for (let i = 0; i < number_of_checkpoints && !this.path_blocked; ++i) {
-                this.visited = [];
-                await this.algorithm(start, checkpoints.peek()[1], k % 4 + 1);
+                this.reset_visit_map();
+                await this.algorithm(start, checkpoints.peek()[1], k % 4);
                 start = checkpoints.peek()[1];
                 remove_unordered_checkpoint(start);
                 update_checkpoints(start);
                 ++k;
             }
             if (!this.path_blocked) {
-                this.visited = [];
+                this.reset_visit_map();
                 this.board.get_nodes_array()[stop[0]][stop[1]].recover_point(node_definition.STOP);
-                await this.algorithm(start, stop, k % 4 + 1);
+                await this.algorithm(start, stop, k % 4);
             }
         }
         else {
-            this.visited = [];
             await this.algorithm(start, stop, 1);
         }
     }

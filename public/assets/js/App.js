@@ -5,6 +5,7 @@ import { NodeDefinition } from './Definitions/NodeDefinition.js';
 import { AglorithmDefinition } from './Definitions/AlgorithmDefinition.js';
 import { Dijkstra } from './Algorithms/Dijkstra.js';
 import { AStar } from './Algorithms/AStar.js';
+import { BFS } from './Algorithms/BFS.js';
 // DOM Elements
 let dom_board = document.getElementById("board");
 let btn_apply_board_size = document.getElementById("btn_apply_board_size");
@@ -39,6 +40,7 @@ let algorithm_definition = new AglorithmDefinition();
 // Algorithms
 let dijkstra;
 let astar;
+let bfs;
 // App
 let tool_selected = tool_definition.NO_TOOL;
 let algorithm_selected = algorithm_definition.NONE;
@@ -149,6 +151,7 @@ btn_algorithm_start.addEventListener("click", async () => {
     document.getElementsByClassName("row collapse")[0].classList.remove("show");
     switch (algorithm_selected) {
         case algorithm_definition.BFS: {
+            await bfs.start();
             break;
         }
         case algorithm_definition.DFS: {
@@ -370,6 +373,7 @@ function init_algorithm() {
             return;
         }
         case algorithm_definition.BFS: {
+            bfs = new BFS(board, algorithm_speed);
             break;
         }
         case algorithm_definition.DFS: {
@@ -391,6 +395,7 @@ function update_algorithm_speed() {
             return;
         }
         case algorithm_definition.BFS: {
+            bfs.update_speed(algorithm_speed);
             break;
         }
         case algorithm_definition.DFS: {
