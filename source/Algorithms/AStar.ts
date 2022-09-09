@@ -19,7 +19,7 @@ export class AStar {
     }
 
     private calculate_distance(point_a: number[], point_b: number[]) {
-        return Math.sqrt(Math.pow(point_a[0] - point_b[0], 2) + Math.pow(point_a[1] - point_b[1], 2));
+       return Math.abs(point_a[0] - point_b[0]) + Math.abs(point_a[1] - point_b[1]);
     }
 
     private out_of_boundries(i: number, j: number) {
