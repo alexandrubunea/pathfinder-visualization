@@ -158,23 +158,40 @@ btn_algorithm_start.addEventListener("click", async () => {
     if(algorithm_is_running) return;
     if(algorithm_selected == algorithm_definition.NONE) return alert("You must select an algorithm first!");
     if(just_used) return alert("You must clear the board first!");
+
+    let start: number[] = [];
+    let stop: number[] = [];
+
+    for(let i = 0; i < board.get_rows(); ++i) {
+        for(let j = 0; j < board.get_cols(); ++j) {
+            if(board.get_nodes_array()[i][j].get_type() == node_definition.START) {
+                start = [i, j];
+            }
+            else if(board.get_nodes_array()[i][j].get_type() == node_definition.STOP) {
+                stop = [i, j];
+            }
+        }
+    }
+    if(start.length == 0 || stop.length == 0) return alert("You must have a start and a stop point on your board!");
+
     algorithm_is_running = true;
     document.getElementsByClassName("row collapse")[0].classList.remove("show");
+    
     switch(algorithm_selected) {
         case algorithm_definition.BFS: {
-            await bfs.start();
+            await bfs.start(start, stop);
             break;
         }
         case algorithm_definition.DFS: {
-            await dfs.start();
+            await dfs.start(start, stop);
             break;
         }
         case algorithm_definition.DIJKSTRA: {
-            await dijkstra.start();
+            await dijkstra.start(start, stop);
             break;
         }
         case algorithm_definition.ASTAR: {
-            await astar.start();
+            await astar.start(start, stop);
             break;
         }
     }

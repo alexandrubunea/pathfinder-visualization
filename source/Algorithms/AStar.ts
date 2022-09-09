@@ -174,9 +174,7 @@ export class AStar {
         this.animation_speed = value;
     }
 
-    public async start() {
-        let start: number[] = [];
-        let stop: number[] = [];
+    public async start(start: number[], stop: number[]) {
         let checkpoints: Heap = new Heap((a: any, b: any) => {
             return a[0] < b[0];
         });
@@ -184,19 +182,12 @@ export class AStar {
 
         for(let i = 0; i < this.board.get_rows(); ++i) {
             for(let j = 0; j < this.board.get_cols(); ++j) {
-                if(this.board.get_nodes_array()[i][j].get_type() == node_definition.START) {
-                    start = [i, j];
-                }
-                else if(this.board.get_nodes_array()[i][j].get_type() == node_definition.STOP) {
-                    stop = [i, j];
-                }
-                else if(this.board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT) {
+                if(this.board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT) {
                     non_ordered_checkpoints.push([i, j]);
                 }
             }
         }
-        if(start.length == 0 || stop.length == 0) return alert("You must have a start and a stop point on your board!");
-
+        
         let update_checkpoints = (from: number[]) => {
             checkpoints = new Heap((a: any, b: any) => {
                 return a[0] < b[0];

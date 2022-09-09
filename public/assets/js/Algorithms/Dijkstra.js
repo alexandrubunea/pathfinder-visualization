@@ -6,11 +6,13 @@ export class Dijkstra {
     animation_speed;
     last_stop;
     visit_map;
+    path_blocked;
     constructor(board, animation_speed) {
         this.board = board;
         this.animation_speed = animation_speed;
         this.last_stop = [];
         this.visit_map = [];
+        this.path_blocked = false;
     }
     out_of_boundries(i, j) {
         if (i >= this.board.get_rows() || j >= this.board.get_cols() || i < 0 || j < 0)
@@ -97,7 +99,7 @@ export class Dijkstra {
                     await path_animation();
                 }
                 else {
-                    this.last_stop = [-1, -1];
+                    this.path_blocked = true;
                 }
                 resolve();
             };
@@ -137,38 +139,27 @@ export class Dijkstra {
             };
         });
     }
-    async start() {
-        let start = [];
-        let stop = [];
+    async start(start, stop) {
         let checkpoints = 0;
         for (let i = 0; i < this.board.get_rows(); ++i) {
             for (let j = 0; j < this.board.get_cols(); ++j) {
-                if (this.board.get_nodes_array()[i][j].get_type() == node_definition.START) {
-                    start = [i, j];
-                }
-                else if (this.board.get_nodes_array()[i][j].get_type() == node_definition.STOP) {
-                    stop = [i, j];
-                }
-                else if (this.board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT) {
+                if (this.board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT) {
                     ++checkpoints;
                 }
             }
         }
-        if (start.length == 0 || stop.length == 0)
-            return alert("You must have a start and a stop point on your board!");
         this.init_visit_map();
         if (checkpoints > 0) {
             let k = 1;
-            const invalid = [-1, -1];
             await this.algorithm(start, k % 4, 0);
             --checkpoints;
             ++k;
-            for (let i = 0; i < checkpoints && this.last_stop != invalid; ++i) {
+            for (let i = 0; i < checkpoints && !this.path_blocked; ++i) {
                 this.reset_visit_map();
                 await this.algorithm(this.last_stop, k % 4, 0);
                 k++;
             }
-            if (this.last_stop != invalid) {
+            if (!this.path_blocked) {
                 this.reset_visit_map();
                 this.board.get_nodes_array()[stop[0]][stop[1]].recover_point(node_definition.STOP);
                 await this.algorithm(this.last_stop, k % 4, 1);

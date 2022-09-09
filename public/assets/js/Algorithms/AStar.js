@@ -13,7 +13,7 @@ export class AStar {
         this.path_blocked = false;
     }
     calculate_distance(point_a, point_b) {
-        return Math.sqrt(Math.pow(point_a[0] - point_b[0], 2) + Math.pow(point_a[1] - point_b[1], 2));
+        return Math.abs(point_a[0] - point_b[0]) + Math.abs(point_a[1] - point_b[1]);
     }
     out_of_boundries(i, j) {
         if (i >= this.board.get_rows() || j >= this.board.get_cols() || i < 0 || j < 0)
@@ -140,28 +140,18 @@ export class AStar {
     update_speed(value) {
         this.animation_speed = value;
     }
-    async start() {
-        let start = [];
-        let stop = [];
+    async start(start, stop) {
         let checkpoints = new Heap((a, b) => {
             return a[0] < b[0];
         });
         let non_ordered_checkpoints = [];
         for (let i = 0; i < this.board.get_rows(); ++i) {
             for (let j = 0; j < this.board.get_cols(); ++j) {
-                if (this.board.get_nodes_array()[i][j].get_type() == node_definition.START) {
-                    start = [i, j];
-                }
-                else if (this.board.get_nodes_array()[i][j].get_type() == node_definition.STOP) {
-                    stop = [i, j];
-                }
-                else if (this.board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT) {
+                if (this.board.get_nodes_array()[i][j].get_type() == node_definition.CHECKPOINT) {
                     non_ordered_checkpoints.push([i, j]);
                 }
             }
         }
-        if (start.length == 0 || stop.length == 0)
-            return alert("You must have a start and a stop point on your board!");
         let update_checkpoints = (from) => {
             checkpoints = new Heap((a, b) => {
                 return a[0] < b[0];

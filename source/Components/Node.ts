@@ -39,19 +39,23 @@ export class Node {
                 break;
             }
             case tool_definition.START_TOOL: {
-                if(start_exist) return alert("You have placed already a start point!");
+                if(start_exist) return;
                 this.clear_type();
                 this.dom_node.innerHTML = '<i class="bi bi-diamond-fill"></i>';
                 this.type = node_definition.START;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.STOP_TOOL: {
-                if(stop_exist) return alert("You have placed already a stop point!");
+                if(stop_exist) return;
                 this.clear_type();
                 this.dom_node.innerHTML = '<i class="bi bi-diamond"></i>';
                 this.type = node_definition.STOP;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.BLOCK_TOOL: {
@@ -59,6 +63,8 @@ export class Node {
                 this.dom_node.innerHTML = '<i class="bi bi-bricks"></i>';
                 this.type = node_definition.BLOCKED;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.CHECKPOINT_TOOL: {
@@ -66,6 +72,8 @@ export class Node {
                 this.dom_node.innerHTML = '<i class="bi bi-geo-alt-fill"></i>';
                 this.type = node_definition.CHECKPOINT;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.WEIGHT_TOOL: {
@@ -74,6 +82,8 @@ export class Node {
                 this.type = node_definition.WEIGHTED;
                 this.weight = 2;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.WEIGHT_TOOL + 1: {
@@ -82,6 +92,8 @@ export class Node {
                 this.type = node_definition.WEIGHTED;
                 this.weight = 3;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.WEIGHT_TOOL + 2: {
@@ -90,6 +102,8 @@ export class Node {
                 this.type = node_definition.WEIGHTED;
                 this.weight = 4;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.WEIGHT_TOOL + 3: {
@@ -98,6 +112,8 @@ export class Node {
                 this.type = node_definition.WEIGHTED;
                 this.weight = 5;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.WEIGHT_TOOL + 4: {
@@ -106,6 +122,8 @@ export class Node {
                 this.type = node_definition.WEIGHTED;
                 this.weight = 6;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.WEIGHT_TOOL + 5: {
@@ -114,6 +132,8 @@ export class Node {
                 this.type = node_definition.WEIGHTED;
                 this.weight = 7;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.WEIGHT_TOOL + 6: {
@@ -122,6 +142,8 @@ export class Node {
                 this.type = node_definition.WEIGHTED;
                 this.weight = 8;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.WEIGHT_TOOL + 7: {
@@ -130,6 +152,8 @@ export class Node {
                 this.type = node_definition.WEIGHTED;
                 this.weight = 9;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
             case tool_definition.WEIGHT_TOOL + 8: {
@@ -138,6 +162,8 @@ export class Node {
                 this.type = node_definition.WEIGHTED;
                 this.weight = 10;
                 this.dom_node.style.backgroundColor = "#5B60C7";
+                this.dom_node.className = '';
+                this.dom_node.classList.add("tool-block");
                 break;
             }
         }

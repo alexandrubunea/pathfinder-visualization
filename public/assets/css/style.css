@@ -68,41 +68,117 @@ td {
 }
 .visited0 {
     background-color: #C4357A !important;
+    animation-duration: 1s;
+
+    animation-name: visit-animation;
 }
 .visited1 {
     background-color: #084BCF !important;
+    animation-duration: 1s;
+
+    animation-name: visit-animation;
 }
 .visited2 {
     background-color: #F2506E !important;
+    animation-duration: 1s;
+
+    animation-name: visit-animation;
 }
 .visited3 {
     background-color: #8C5D58 !important;
+    animation-duration: 1s;
+
+    animation-name: visit-animation;
 }
 .next_to_be_visited0 {
     background-color: #c4357a46 !important;
+    animation-duration: 1s;
+
+    animation-name: visit-next-animation;
 }
 .next_to_be_visited1 {
     background-color: #084acf5b !important;
+    animation-duration: 1s;
+
+    animation-name: visit-next-animation;
 }
 .next_to_be_visited2 {
     background-color: #f2506e8e !important;
+    animation-duration: 1s;
+
+    animation-name: visit-next-animation;
 }
 .next_to_be_visited3 {
     background-color: #8c5d5862 !important;
+    animation-duration: 1s;
+
+    animation-name: visit-next-animation;
 }
 .path0 {
     background-color: #3E00A8 !important;
     border:none !important;
+    animation-duration: 1s;
+
+    animation-name: path-animation;
 }
 .path1 {
     background-color: #E97AFF !important;
     border: none !important;
+    animation-duration: 1s;
+
+    animation-name: path-animation;
 }
 .path2 {
     background-color: #FFBA19 !important;
     border: none !important;
+    animation-duration: 1s;
+
+    animation-name: path-animation;
 }
 .path3 {
     background-color: #09B271 !important;
     border: none !important;
+    animation-duration: 1s;
+
+    animation-name: path-animation;
+}
+
+.tool-block {
+    animation-duration: .5s;
+
+    animation-name: path-animation;
+}
+
+@keyframes visit-next-animation {
+    from {
+        transform: scale(0);
+        border-radius: 100%;
+    }
+    85% {
+        border-radius: 0%;
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes visit-animation {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes path-animation {
+    from {
+        transform: scale(0);
+    }
+    80% {
+        transform: scale(1.2);
+    }
+    to {
+        transform: scale(1);
+    }
 }
