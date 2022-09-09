@@ -1,4 +1,4 @@
-// Libraries
+// Modules
 import { Board } from './Components/Board.js'
 import { ToolsDefinition } from './Definitions/ToolsDefinition.js'
 import { NodeDefinition } from './Definitions/NodeDefinition.js'
@@ -6,6 +6,7 @@ import { AglorithmDefinition } from './Definitions/AlgorithmDefinition.js'
 import { Dijkstra } from './Algorithms/Dijkstra.js'
 import { AStar } from './Algorithms/AStar.js'
 import { BFS } from './Algorithms/BFS.js'
+import { DFS } from './Algorithms/DFS.js'
 
 // DOM Elements
 let dom_board: HTMLElement = document.getElementById("board")!;
@@ -50,6 +51,7 @@ let algorithm_definition: AglorithmDefinition = new AglorithmDefinition();
 let dijkstra: Dijkstra;
 let astar: AStar;
 let bfs: BFS;
+let dfs: DFS;
 
 // App
 let tool_selected: number = tool_definition.NO_TOOL;
@@ -164,7 +166,7 @@ btn_algorithm_start.addEventListener("click", async () => {
             break;
         }
         case algorithm_definition.DFS: {
-
+            await dfs.start();
             break;
         }
         case algorithm_definition.DIJKSTRA: {
@@ -375,7 +377,7 @@ function init_algorithm() {
             break;
         }
         case algorithm_definition.DFS: {
-
+            dfs = new DFS(board, algorithm_speed);
             break;
         }
         case algorithm_definition.DIJKSTRA: {

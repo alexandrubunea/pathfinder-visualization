@@ -70,7 +70,7 @@ export class Dijkstra {
 
                 if(min_heap.is_empty() || stop_found) {
                     clearInterval(visit_animation);
-                    finish();
+                    return finish();
                 }
 
                 let i = min_heap.peek()[1].get_row();

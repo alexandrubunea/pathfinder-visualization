@@ -53,7 +53,7 @@ export class BFS {
             let visit_animation = setInterval(() => {
                 if(queue.length == queue_pointer || stop_found) {
                     clearInterval(visit_animation);
-                    finish();
+                    return finish();
                 }
 
                 let i = queue[queue_pointer][0];

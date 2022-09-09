@@ -59,7 +59,7 @@ export class AStar {
             let visit_animation = setInterval(() => {
                 if (min_heap.is_empty() || stop_found) {
                     clearInterval(visit_animation);
-                    finish();
+                    return finish();
                 }
                 let i = min_heap.peek()[1].get_row();
                 let j = min_heap.peek()[1].get_col();
