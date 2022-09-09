@@ -64,6 +64,8 @@ export class DFS {
                         if (next_node.get_type() != node_definition.BLOCKED &&
                             !this.visit_map[new_i][new_j]) {
                             queue.push([new_i, new_j]);
+                            if (next_node.get_type() != node_definition.PATH)
+                                next_node.mark_next_to_visit(id);
                             if (next_node.get_type() == node_definition.CHECKPOINT ||
                                 (next_node.get_type() == node_definition.STOP && type == 1)) {
                                 stop_found = true;

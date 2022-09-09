@@ -279,11 +279,24 @@ function add_nodes_event_listener() {
         for (let j = 0; j < board.get_cols(); ++j) {
             let node = board.get_nodes_array()[i][j];
             node.get_html_element().addEventListener("click", () => {
-                if (just_used || algorithm_is_running)
+                if (algorithm_is_running)
                     return;
+                if (just_used)
+                    return alert("You must reset the board if you want to modify it!");
                 if (no_algo_selected)
-                    return alert("You must select first an algorithm");
+                    return alert("You must select first an algorithm!");
                 node.update_type(tool_selected, does_start_node_exist(), does_stop_node_exist());
+            });
+            node.get_html_element().addEventListener("mouseover", function (e) {
+                if (e.buttons == 1 || e.buttons == 3) {
+                    if (algorithm_is_running)
+                        return;
+                    if (just_used)
+                        return alert("You must reset the board if you want to modify it!");
+                    if (no_algo_selected)
+                        return alert("You must select first an algorithm!");
+                    node.update_type(tool_selected, does_start_node_exist(), does_stop_node_exist());
+                }
             });
         }
     }

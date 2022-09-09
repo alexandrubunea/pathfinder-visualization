@@ -19,7 +19,7 @@ export class AStar {
     }
 
     private calculate_distance(point_a: number[], point_b: number[]) {
-        return Math.floor(Math.sqrt(Math.pow(point_a[0] - point_b[0], 2) + Math.pow(point_a[1] - point_b[1], 2)));
+        return Math.sqrt(Math.pow(point_a[0] - point_b[0], 2) + Math.pow(point_a[1] - point_b[1], 2));
     }
 
     private out_of_boundries(i: number, j: number) {
@@ -95,6 +95,8 @@ export class AStar {
                                 if(distance + distance_to_stop < distance_map[new_i][new_j] + distance_to_stop) {
                                     distance_map[new_i][new_j] = distance;
                                     min_heap.insert([distance + distance_to_stop, next_node]);
+                                    if(next_node.get_type() != node_definition.PATH)
+                                        next_node.mark_next_to_visit(id);
 
                                     if(stop[0] == new_i && stop[1] == new_j) {
                                         stop_found = true;

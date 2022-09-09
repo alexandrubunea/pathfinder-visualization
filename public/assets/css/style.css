@@ -78,6 +78,18 @@ td {
 .visited3 {
     background-color: #8C5D58 !important;
 }
+.next_to_be_visited0 {
+    background-color: #c4357a46 !important;
+}
+.next_to_be_visited1 {
+    background-color: #084acf5b !important;
+}
+.next_to_be_visited2 {
+    background-color: #f2506e8e !important;
+}
+.next_to_be_visited3 {
+    background-color: #8c5d5862 !important;
+}
 .path0 {
     background-color: #3E00A8 !important;
     border:none !important;

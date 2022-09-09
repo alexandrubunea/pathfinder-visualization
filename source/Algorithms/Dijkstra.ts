@@ -90,6 +90,9 @@ export class Dijkstra {
                                     distance_map[new_i][new_j] = distance;
                                     min_heap.insert([distance, next_node]);
 
+                                    if(next_node.get_type() != node_definition.PATH)
+                                        next_node.mark_next_to_visit(times_visited);
+
                                     if(next_node.get_type() == node_definition.CHECKPOINT || 
                                     (next_node.get_type() == node_definition.STOP && type == 1)) {
                                         stop_found = true;

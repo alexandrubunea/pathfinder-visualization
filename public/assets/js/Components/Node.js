@@ -142,6 +142,10 @@ export class Node {
         this.dom_node.className = '';
         this.dom_node.classList.add(String("visited" + times));
     }
+    mark_next_to_visit(times) {
+        this.dom_node.className = '';
+        this.dom_node.classList.add(String("next_to_be_visited" + times));
+    }
     mark_path(times) {
         this.type = node_definition.PATH;
         this.dom_node.className = '';
