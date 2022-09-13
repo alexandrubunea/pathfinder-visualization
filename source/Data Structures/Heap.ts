@@ -11,7 +11,7 @@ export class Heap {
     }
 
     private get_father(x: number) {
-        return Math.floor(x >> 1);
+        return x >> 1;
     }
     private down_heap(pos: number) {
         let left_child: number = pos << 1;
